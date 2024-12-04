@@ -11,12 +11,13 @@ import static com.zss.service.HmacService.generateHmacSha1;
 @Component
 public class IFirmaApiClient {
 
+    private static StringBuilder jsonResponse;
+    private static String requestContent;
 
-    public static String fetchPaidInvoices(String userName, String keyNameFaktura, String symmetricalKeyFaktura, String apiUrlPaid) {
-        StringBuilder jsonResponse = null;
+    public static String fetchPaidInvoices(String userName, String keyNameFaktura,
+                                           String symmetricalKeyFaktura, String apiUrlPaid) {
         try {
-
-            String requestContent = "";
+            requestContent = "";
             String baseUrl = apiUrlPaid.split("\\?")[0];
             String hashMessage = baseUrl + userName + keyNameFaktura + requestContent;
             String hmacHash = generateHmacSha1(symmetricalKeyFaktura, hashMessage);
@@ -65,12 +66,12 @@ public class IFirmaApiClient {
 
 
     public static String checkApiLimit(String userName, String symmetricalKeyAbonent) {
-        StringBuilder jsonResponse = null;
+
         String apiUrl = "https://www.ifirma.pl/iapi/abonent/limit.json";
         String keyNameAbonent = "abonent";
 
         try {
-            String requestContent = ""; // *Important* Empty for GET request
+            requestContent = ""; // *Important* Empty for GET request
             String baseUrl = apiUrl.split("\\?")[0]; // URL with no params
             String hashMessage = baseUrl + userName + keyNameAbonent + requestContent;
 
