@@ -39,11 +39,6 @@ public class IFirmaApiClient {
                         jsonResponse.append(line).append("\n");
                     }
                 }
-                System.out.println("Faktury:");
-                System.out.println(jsonResponse);
-
-//                sendToWebhook("https://****/webhook-test/java-app", jsonResponse.toString());
-
             } else {
 
                 System.err.println("Błąd: Kod odpowiedzi HTTP " + responseCode);
@@ -54,12 +49,9 @@ public class IFirmaApiClient {
                         errorResponse.append(line).append("\n");
                     }
                 }
-                System.err.println("Szczegóły błędu:");
-                System.err.println(errorResponse);
             }
         } catch (Exception e) {
             System.err.println("Błąd podczas pobierania opłaconych faktur: " + e.getMessage());
-            e.printStackTrace();
         }
         return String.valueOf(jsonResponse);
     }
@@ -94,14 +86,9 @@ public class IFirmaApiClient {
                         jsonResponse.append(line).append("\n");
                     }
                 }
-                // Send response to external webhook
-//                sendToWebhook("https://******/webhook/java-app", jsonResponse.toString());
-            } else {
-                System.err.println("Błąd: Kod odpowiedzi HTTP " + responseCode);
             }
         } catch (Exception e) {
             System.err.println("Błąd podczas sprawdzania limitu API: " + e.getMessage());
-            e.printStackTrace();
         }
         return String.valueOf(jsonResponse);
     }
