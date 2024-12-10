@@ -12,7 +12,8 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class WebhookService {
 
-    public static void sendToWebhook(String webhookUrl, String responseMessage) {
+    public static String sendToWebhook(String webhookUrl, String responseMessage) {
+        StringBuilder jsonResponse = new StringBuilder();
         try {
             // Create HTTP connection
             URL url = new URL(webhookUrl);
@@ -30,7 +31,7 @@ public class WebhookService {
 
             int responseCode = connection.getResponseCode();
             if (responseCode == 200) {
-                StringBuilder jsonResponse = new StringBuilder();
+                jsonResponse = new StringBuilder();
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
@@ -42,8 +43,8 @@ public class WebhookService {
             }
         } catch (Exception e) {
             System.err.println("Błąd podczas sprawdzania limitu API: " + e.getMessage());
-            e.printStackTrace();
         }
+        return jsonResponse.toString();
     }
 }
 

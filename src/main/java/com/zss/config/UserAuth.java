@@ -33,7 +33,7 @@ public class UserAuth {
     @Value("${ifirma.api.keyFakturaSpj}")
     String keyFakturaSpj;
 
-    @Value("${ifirma.api.n8n}")
-    String n8nWebhookUrl;
+    @Value("${ifirma.api.webhookUrl}")
+    String webhookUrl;
 
 }

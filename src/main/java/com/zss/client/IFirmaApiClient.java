@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import static com.zss.service.HmacService.generateHmacSha1;
+import static com.zss.service.WebhookService.sendToWebhook;
 
 @Component
 public class IFirmaApiClient {
@@ -39,6 +40,7 @@ public class IFirmaApiClient {
                         jsonResponse.append(line).append("\n");
                     }
                 }
+                sendToWebhook("https://n8n.melongroup.pl/webhook-test/database", jsonResponse.toString());
             } else {
 
                 System.err.println("Błąd: Kod odpowiedzi HTTP " + responseCode);

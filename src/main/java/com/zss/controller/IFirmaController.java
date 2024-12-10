@@ -1,12 +1,11 @@
 package com.zss.controller;
 
 import lombok.Getter;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.zss.client.IFirmaApiClient.checkApiLimit;
 import static com.zss.client.IFirmaApiClient.fetchPaidInvoices;
+
 import com.zss.config.UserAuth;
 
 @Getter
@@ -21,6 +20,8 @@ public class IFirmaController {
    private static String keyAbonentSpj;
    private static String keyFakturaSpj;
    private static String usernamespj;
+   private final String apiUrlPaid = "https://www.ifirma.pl/iapi/faktury.json?" +
+           "dataOd=2024-07-01&dataDo=2024-12-31&iloscNaStronie=300&status=oplacone";
 
     public IFirmaController(UserAuth userAuth) {
 
@@ -35,11 +36,14 @@ public class IFirmaController {
 
     @GetMapping("/invoices")
     public String getInvoices() {
-
-        String apiUrlPaid = "https://www.ifirma.pl/iapi/faktury.json?" +
-                "dataOd=2024-07-01&dataDo=2024-12-31&iloscNaStronie=300&status=oplacone";
-        return fetchPaidInvoices(userName, keyNameFaktura, keyFaktura, apiUrlPaid) + fetchPaidInvoices(usernamespj, keyNameFaktura, keyFakturaSpj, apiUrlPaid);
+        return fetchPaidInvoices(userName, keyNameFaktura, keyFaktura, apiUrlPaid);
     }
+
+    @GetMapping("/invoicesSpj")
+    public String getInvoiceSpj() {
+        return fetchPaidInvoices(usernamespj, keyNameFaktura, keyFakturaSpj, apiUrlPaid);
+    }
+
     @GetMapping("/limit")
     public String getApiLimit() {
         return checkApiLimit(userName, keyAbonent) + checkApiLimit(usernamespj, keyAbonentSpj);
